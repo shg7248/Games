@@ -23,17 +23,10 @@ Piece.prototype.draw = function() {
             if(value) { // value > 0
                 const y = this.y + dy;
                 const x = this.x + dx;
-
                 this.context.fillRect(x, y, 1, 1);
             }
         });
     });
-}
-
-Piece.prototype.moveBlock = function(piece) {
-    this.x = piece.x;
-    this.y = piece.y;
-    this.shapeInfo.shape = piece.shapeInfo.shape;
 }
 
 Piece.prototype.rotateShape = function(e) {
@@ -44,4 +37,10 @@ Piece.prototype.rotateShape = function(e) {
             return arr[size - dx][dy];
         });
     })}};
+}
+
+Piece.prototype.moveBlock = function(piece) {
+    this.x = piece.x;
+    this.y = piece.y;
+    this.shapeInfo.shape = piece.shapeInfo.shape;
 }

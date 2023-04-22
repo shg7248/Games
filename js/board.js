@@ -31,8 +31,7 @@ Board.prototype.vailDation = function(piece) {
         return e.every((value, dx) => {
             let x = piece.x + dx;
             let y = piece.y + dy;
-
-            return value === 0 || that.board[y] && that.board[y][x] === 0;
+            return !value || that.board[y] && that.board[y][x] === 0;
         });
     });
 }
@@ -55,8 +54,7 @@ Board.prototype.writeBoard = function(piece) {
         e.forEach((value, dx) => {
             let x = piece.x + dx;
             let y = piece.y + dy;
-            
-            if(value) that.board[y][x] = value;
+            value && (that.board[y][x] = value);
         });
     });    
 }
@@ -68,7 +66,6 @@ Board.prototype.removeLine = function() {
         if(result) {
             that.board.splice(dy, 1);
             that.board.unshift(Array(COLS).fill(0));
-            let number = document.querySelector('#score--num');
         }
     })
 }

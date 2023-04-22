@@ -40,7 +40,6 @@ App.prototype.start = function() {
 }
 
 App.prototype.animate = function(now = 0) {
-
     this.requestId = window.requestAnimationFrame(this.animate.bind(this));
     const time = this.time;
     time.elapsed = now - time.start;
@@ -64,7 +63,7 @@ App.prototype.addKeyListener = function() {
     document.addEventListener('keydown', function(e) {
         if(e.keyCode === KEYS.SPACE) {
             let piece;
-            while(that.board.vailDation(piece = piece = that.moveBlock[KEYS.DOWN](that.piece))) {
+            while(that.board.vailDation(piece = that.moveBlock[KEYS.DOWN](that.piece))) {
                 that.piece.moveBlock(piece);
                 that.drawScreen();
             }
@@ -102,8 +101,7 @@ App.prototype.drawScreen = function() {
 }
 
 App.prototype.makePiece = function() {
-    this.piece = new Piece(this.context);
-    return !this.board.checkfline(this.piece);
+    return !this.board.checkfline(this.piece = new Piece(this.context));
 }
 
 App.prototype.gameOver = function() {

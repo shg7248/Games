@@ -5,7 +5,8 @@ import {
     WIDTH,
     HEIGHT,
     SHAPES,
-    KEYS
+    KEYS,
+    INNER_BLOCK_SIZE,
 } from './constant.js';
 
 export default function Piece(context) {
@@ -17,13 +18,21 @@ export default function Piece(context) {
 }
 
 Piece.prototype.draw = function() {
-    this.context.fillStyle = this.shapeInfo.color;
     this.shapeInfo.shape.forEach((e, dy) => {
         e.forEach((value, dx) => {
             if(value) { // value > 0
                 const y = this.y + dy;
                 const x = this.x + dx;
+
+                this.context.fillStyle = 'white';
                 this.context.fillRect(x, y, 1, 1);
+                this.context.fillStyle = this.shapeInfo.color;
+                this.context.fillRect(
+                    x + INNER_BLOCK_SIZE, 
+                    y + INNER_BLOCK_SIZE, 
+                    1 - INNER_BLOCK_SIZE * 2, 
+                    1 - INNER_BLOCK_SIZE * 2
+                );
             }
         });
     });

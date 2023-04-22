@@ -7,6 +7,8 @@ export const BLOCK_SIZE = 30;
 export const WIDTH = COLS * BLOCK_SIZE;
 export const HEIGHT = ROWS * BLOCK_SIZE;
 
+export const INNER_BLOCK_SIZE = 0.03;
+
 export const SHAPES = [
     {
         name: 'I',

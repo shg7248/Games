@@ -5,7 +5,8 @@ import {
     WIDTH,
     HEIGHT,
     SHAPES,
-    KEYS
+    KEYS,
+    INNER_BLOCK_SIZE,
 } from './constant.js';
 
 export default function Board(context) {
@@ -18,11 +19,24 @@ export default function Board(context) {
 
 Board.prototype.initBackground = function() {
     const that = this;
-    this.background = new Image();
-    this.background.src = './images/background.png';
-    this.background.onload = function() {
-        that.context.drawImage(that.background, 0, 0, COLS, ROWS);
-    }
+    // this.background = new Image();
+    // this.background.src = './images/background.png';
+    // this.background.onload = function() {
+    //     that.context.drawImage(that.background, 0, 0, COLS, ROWS);
+    // }
+    this.board.forEach((e, dy) => {
+        e.forEach((value, dx) => {
+            that.context.fillStyle = 'white';
+            that.context.fillRect(dx, dy, 1, 1);
+            that.context.fillStyle = '#CCCCCC';
+            this.context.fillRect(
+                dx + INNER_BLOCK_SIZE, 
+                dy + INNER_BLOCK_SIZE, 
+                1 - INNER_BLOCK_SIZE * 2, 
+                1 - INNER_BLOCK_SIZE * 2
+            );
+        });
+    });
 }
 
 Board.prototype.vailDation = function(piece) {
@@ -36,18 +50,31 @@ Board.prototype.vailDation = function(piece) {
     });
 }
 
+/**
+ * board 배열에 입력된 값을 canvas에 출력시킨다.
+ */
 Board.prototype.draw = function() {
     const that = this;
     this.board.forEach((e, dy) => {
         e.forEach((value, dx) => {
             if(value) { // value > 0
+                this.context.fillStyle = 'white';
+                this.context.fillRect(dx, dy, 1, 1);
                 that.context.fillStyle = SHAPES[value-1].color;
-                that.context.fillRect(dx, dy, 1, 1);
+                this.context.fillRect(
+                    dx + INNER_BLOCK_SIZE, 
+                    dy + INNER_BLOCK_SIZE, 
+                    1 - INNER_BLOCK_SIZE * 2, 
+                    1 - INNER_BLOCK_SIZE * 2
+                );
             }
         });
     });
 }
 
+/**
+ * 블록이 바닥에 닿거나 다른 블록에 닿으면 board 배열에 입력시킨다.  
+ */
 Board.prototype.writeBoard = function(piece) {
     const that = this;
     piece.shapeInfo.shape.forEach((e, dy) => {
@@ -83,5 +110,5 @@ Board.prototype.checkfline = function(piece) {
 
 Board.prototype.clear = function() {
     this.context.clearRect(0, 0, WIDTH, HEIGHT);
-    this.context.drawImage(this.background, 0, 0, COLS, ROWS);
+    this.initBackground();
 }

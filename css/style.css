@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    cursor: pointer;
+}
+
+#container {
+    width: 600px;
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#container #app {
+    border: 5px solid black;
+}
+
+#container #right {
+    position: relative;
+}
+
+#container #right a#start {
+    display: inline-block;
+    position: absolute;
+    font-size: 20px;
+    width: 80px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: black;
+    color: white;
+    bottom: 0;
+    left: 10px;
+}

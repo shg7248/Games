@@ -1,4 +1,12 @@
 import {
+    ROWS, 
+    COLS, 
+    BLOCK_SIZE,
+    WIDTH,
+    HEIGHT,
+    SHAPES,
+    KEYS,
+    INNER_BLOCK_SIZE,
 } from './constant.js';
 
 export default function Piece(context) {

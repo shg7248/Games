@@ -52,7 +52,6 @@ Board.prototype.vailDation = function(piece) {
 
 /**
  * board 배열에 입력된 값을 canvas에 출력시킨다.
->>>>>>> ffbc285af2c494df631ff2cec69df039961bb41c
  */
 Board.prototype.draw = function() {
     const that = this;

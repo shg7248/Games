@@ -1,5 +1,6 @@
 import { SIZE, MoveDirection } from './Constant.js';
 import PacMan from './PacMan.js';
+import Enemy from './Enemy.js';
 
 export default function Board(context) {
     this.context = context;
@@ -9,7 +10,7 @@ export default function Board(context) {
         [1, 0, 1, 0, 1, 0, 1],
         [1, 0, 1, 0, 1, 0, 1],
         [1, 0, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 5, 1],
         [1, 1, 1, 1, 1, 1, 1],
     ]
 
@@ -22,9 +23,9 @@ Board.prototype.draw = function() {
     this.map.forEach((value, dy) => {
         value.forEach((value, dx) => {
             
-            this.context.strokeStyle = 'yellow';
-            this.context.lineWidth = 0.1;
-            this.context.strokeRect(dx, dy, 1, 1);
+            // this.context.strokeStyle = 'yellow';
+            // this.context.lineWidth = 0.1;
+            // this.context.strokeRect(dx, dy, 1, 1);
 
             if(value === 1) {
                 this.context.fillStyle = 'blue';
@@ -51,6 +52,22 @@ Board.prototype.getPacman = function() {
         return true; 
     })
     return pacman;
+}
+
+Board.prototype.getEnemy = function(t) {
+    let enemy = null;
+    this.map.every((value, dy) => {
+        value.forEach((value, dx) => {
+            if(value === 5) {
+                enemy = new Enemy(this.context, this.map, t, dx, dy);
+                this.map[dy][dx] = 0;
+                return false;
+            }
+            return true
+        })
+        return true; 
+    })
+    return enemy;    
 }
 
 Board.prototype.isWall = function(x, y, direction) {

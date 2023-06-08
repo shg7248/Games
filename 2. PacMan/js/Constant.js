@@ -7,3 +7,6 @@ export const MoveDirection = {
     top: 2,
     down: 3, 
 }
+
+export const Dx = [0, 1, 0, -1];
+export const Dy = [-1, 0, 1, 0];

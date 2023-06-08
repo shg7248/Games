@@ -1,18 +1,28 @@
 import { FPS } from './Constant.js';
 import Board from './Board.js';
 
-const canvas = document.querySelector('#game');
-const context = canvas.getContext('2d');
+function Game() {
+    this.canvas = document.querySelector('#game');
+    this.context = this.canvas.getContext('2d');
+    
+    this.board = new Board(this.context);
 
-const board = new Board(context);
-const pacman = board.getPacman();
+    this.pacman = this.board.getPacman();
+    const enemy = this.board.getEnemy(this);
+    
+    setInterval( e => {
+        this.board.clearRect();
+    
+        this.pacman.move(this.board);
+        // enemy.search(board);
+        
+        this.board.draw();
+        // enemy.draw();
+        this.pacman.draw();
+    }, 1000 / FPS);
 
-setInterval(loop, 1000 / FPS);
-function loop() {
-    board.clearRect();
+}
 
-    pacman.move(board);
-
-    board.draw();
-    pacman.draw();
+window.onload = function() {
+    new Game();
 }

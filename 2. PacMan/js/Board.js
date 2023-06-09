@@ -54,12 +54,12 @@ Board.prototype.getPacman = function() {
     return pacman;
 }
 
-Board.prototype.getEnemy = function(t) {
+Board.prototype.getEnemy = function(pacman) {
     let enemy = null;
     this.map.every((value, dy) => {
         value.forEach((value, dx) => {
             if(value === 5) {
-                enemy = new Enemy(this.context, this.map, t, dx, dy);
+                enemy = new Enemy(this.context, this.map, pacman, dx, dy);
                 this.map[dy][dx] = 0;
                 return false;
             }

@@ -8,8 +8,10 @@ function Game() {
     this.board = new Board(this.context);
 
     this.pacman = this.board.getPacman();
-    const enemy = this.board.getEnemy(this);
+    const enemy = this.board.getEnemy(this.pacman);
     
+    enemy.search(this.board);
+
     setInterval( e => {
         this.board.clearRect();
     

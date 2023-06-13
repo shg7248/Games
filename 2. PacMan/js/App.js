@@ -8,20 +8,22 @@ function Game() {
     this.board = new Board(this.context);
 
     this.pacman = this.board.getPacman();
-    const enemy = this.board.getEnemy(this.pacman);
-    
-    enemy.search(this.board);
+    this.enemy = this.board.getEnemy();
+
+    this.enemy.serachInit(this.pacman);
+    this.enemy.search();
 
     setInterval( e => {
         this.board.clearRect();
-    
+
         this.pacman.move(this.board);
-        // enemy.search(board);
+        this.enemy.move(this.pacman);
         
         this.board.draw();
-        // enemy.draw();
         this.pacman.draw();
-    }, 1000 / FPS);
+        this.enemy.drawEnemy();
+        console.log('dffdsfsdfsd');
+    }, 300);
 
 }
 

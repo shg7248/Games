@@ -1,18 +1,10 @@
-import { SIZE, MoveDirection } from './Constant.js';
+import { SIZE, MAP, MoveDirection } from './Constant.js';
 import PacMan from './PacMan.js';
 import Enemy from './Enemy.js';
 
 export default function Board(context) {
     this.context = context;
-    this.map = [
-        [1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 4, 0, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 5, 1],
-        [1, 1, 1, 1, 1, 1, 1],
-    ]
+    this.map = MAP;
 
     this.context.canvas.width = this.map[0].length * SIZE;
     this.context.canvas.height = this.map.length * SIZE;
@@ -22,10 +14,10 @@ export default function Board(context) {
 Board.prototype.draw = function() {
     this.map.forEach((value, dy) => {
         value.forEach((value, dx) => {
-            
-            // this.context.strokeStyle = 'yellow';
-            // this.context.lineWidth = 0.1;
-            // this.context.strokeRect(dx, dy, 1, 1);
+
+            this.context.strokeStyle = 'black';
+            this.context.lineWidth = 0.1;
+            this.context.strokeRect(dx, dy, 1, 1);
 
             if(value === 1) {
                 this.context.fillStyle = 'blue';
@@ -59,7 +51,7 @@ Board.prototype.getEnemy = function(pacman) {
     this.map.every((value, dy) => {
         value.forEach((value, dx) => {
             if(value === 5) {
-                enemy = new Enemy(this.context, this.map, pacman, dx, dy);
+                enemy = new Enemy(this.context, dx, dy);
                 this.map[dy][dx] = 0;
                 return false;
             }

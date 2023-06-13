@@ -17,12 +17,32 @@ Enemy.prototype.drawNode = function() {
             return value === 1 ? new Node(dx, dy, true) : new Node(dx, dy, false);
         })
     })
-    console.table(this.map);
 }
 
 Enemy.prototype.drawEnemy = function() {
-    this.context.fillStyle = 'red';
-    this.context.fillRect(this.x, this.y, 1, 1);
+    // this.context.fillStyle = 'red';
+    // this.context.fillRect(this.x, this.y, 1, 1);
+
+    if(this.requestedMove === MoveDirection.left) {
+        const image = new Image();
+        image.src = './images/왼쪽.png';
+        this.context.drawImage(image, this.x, this.y, 1, 1);
+    }
+    else if (this.requestedMove === MoveDirection.right) {
+        const image = new Image();
+        image.src = './images/오른쪽.png';
+        this.context.drawImage(image, this.x, this.y, 1, 1);
+    }
+    else if (this.requestedMove === MoveDirection.top) {
+        const image = new Image();
+        image.src = './images/위쪽.png';
+        this.context.drawImage(image, this.x, this.y, 1, 1);
+    }   
+    else if (this.requestedMove === MoveDirection.down) {
+        const image = new Image();
+        image.src = './images/아래쪽.png';
+        this.context.drawImage(image, this.x, this.y, 1, 1);
+    }
 }
 
 Enemy.prototype.sort = function() {
@@ -46,8 +66,7 @@ Enemy.prototype.search = function() {
         this.parentNode = this.sort()[0];
         this.closeList.push(this.openList.splice(this.openList.indexOf(this.parentNode), 1)[0]);
 
-        if(this.parentNode.x === this.pacman.x && this.parentNode.y === this.pacman.y) {
-
+        if(this.parentNode.x === this.pacman.rx && this.parentNode.y === this.pacman.ry) {
             while(this.parentNode) {
                 this.path.push(this.parentNode);
                 this.parentNode = this.parentNode.parentNode;
@@ -80,7 +99,6 @@ Enemy.prototype.search = function() {
             this.openList.push(this.map[y][x]);
         }
     }
-    
 }
 
 Enemy.prototype.direction = function() {
@@ -107,8 +125,6 @@ Enemy.prototype.direction = function() {
             this.requestedMove = MoveDirection.left;
         }       
     }
-
-    console.log('적이 움직여야 할 방향 : ' + this.requestedMove);
 }
 
 Enemy.prototype.move = function(pacman) {
@@ -120,6 +136,7 @@ Enemy.prototype.move = function(pacman) {
 
     if(isIntegerXY) {
         this.x = x, this.y = y;
+        this.drawNode();
         this.serachInit(pacman);
         this.search();
         this.direction();

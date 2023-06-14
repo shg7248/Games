@@ -9,6 +9,9 @@ export default function Board(context) {
     this.context.canvas.width = this.map[0].length * SIZE;
     this.context.canvas.height = this.map.length * SIZE;
     this.context.scale(SIZE, SIZE);
+
+    this.image = new Image();
+    this.image.src = './images/먹이.png';
 }
 
 Board.prototype.draw = function() {
@@ -19,13 +22,19 @@ Board.prototype.draw = function() {
             this.context.lineWidth = 0.1;
             this.context.strokeRect(dx, dy, 1, 1);
 
-            if(value === 1) {
-                this.context.fillStyle = 'blue';
+            switch(value) {
+                case 0:
+                    this.context.fillStyle = 'black';
+                    this.context.fillRect(dx, dy, 1, 1);
+                    break;
+                case 1:
+                    this.context.fillStyle = 'blue';
+                    this.context.fillRect(dx, dy, 1, 1);
+                    break;
+                case 7:
+                    this.context.drawImage(this.image, dx, dy, 1, 1);
+                    break;
             }
-            else if(value === 0) {
-                this.context.fillStyle = 'black';
-            }
-            this.context.fillRect(dx, dy, 1, 1);
         })
     })
 }
@@ -34,7 +43,7 @@ Board.prototype.getPacman = function() {
     let pacman = null;
     this.map.every((value, dy) => {
         value.forEach((value, dx) => {
-            if(value === 4) {
+            if(value === 2) {
                 pacman = new PacMan(this.context, dx, dy);
                 this.map[dy][dx] = 0;
                 return false;
@@ -50,7 +59,7 @@ Board.prototype.getEnemy = function(pacman) {
     let enemy = null;
     this.map.every((value, dy) => {
         value.forEach((value, dx) => {
-            if(value === 5) {
+            if(value === 3) {
                 enemy = new Enemy(this.context, dx, dy);
                 this.map[dy][dx] = 0;
                 return false;
@@ -78,7 +87,7 @@ Board.prototype.isWall = function(x, y, direction) {
             y += 1;
             break;
     }
-    return this.map[y][x];
+    return this.map[y][x] === 1;
 }
 
 Board.prototype.clearRect = function() {

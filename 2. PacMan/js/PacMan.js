@@ -8,15 +8,31 @@ export default function PacMan(context, x, y) {
     this.rx = x;
     this.ry = y;
 
-    this.currentMove = null;
-    this.requestedMove = null;
+    this.currentMove = MoveDirection.left;
+    this.requestedMove = this.currentMove;
 
+    this.loadImages();
     this.keydown();
 }
 
+PacMan.prototype.loadImages = function() {
+    const left = new Image();
+    left.src = './images/팩맨왼쪽.png';
+
+    const right = new Image();
+    right.src = './images/팩맨오른쪽.png';
+    
+    const top = new Image();
+    top.src = './images/팩맨위쪽.png';
+
+    const down = new Image();
+    down.src = './images/팩맨아래쪽.png';
+
+    this.images = [left, right, top, down];
+}
+
 PacMan.prototype.draw = function() {
-    this.context.fillStyle = 'yellow';
-    this.context.fillRect(this.x, this.y, 1, 1);
+    this.context.drawImage(this.images[this.currentMove], this.x, this.y, 1, 1);
 }
 
 PacMan.prototype.keydown = function() {

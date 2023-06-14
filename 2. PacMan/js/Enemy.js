@@ -8,7 +8,24 @@ export default function Enemy(context, x, y) {
 
     this.requestedMove = null;
 
+    this.loadImages();
     this.drawNode();
+}
+
+Enemy.prototype.loadImages = function() {
+    const left = new Image();
+    left.src = './images/왼쪽.png';
+
+    const right = new Image();
+    right.src = './images/오른쪽.png';
+    
+    const top = new Image();
+    top.src = './images/위쪽.png';
+
+    const down = new Image();
+    down.src = './images/아래쪽.png';
+
+    this.images = [left, right, top, down];
 }
 
 Enemy.prototype.drawNode = function() {
@@ -20,29 +37,7 @@ Enemy.prototype.drawNode = function() {
 }
 
 Enemy.prototype.drawEnemy = function() {
-    // this.context.fillStyle = 'red';
-    // this.context.fillRect(this.x, this.y, 1, 1);
-
-    if(this.requestedMove === MoveDirection.left) {
-        const image = new Image();
-        image.src = './images/왼쪽.png';
-        this.context.drawImage(image, this.x, this.y, 1, 1);
-    }
-    else if (this.requestedMove === MoveDirection.right) {
-        const image = new Image();
-        image.src = './images/오른쪽.png';
-        this.context.drawImage(image, this.x, this.y, 1, 1);
-    }
-    else if (this.requestedMove === MoveDirection.top) {
-        const image = new Image();
-        image.src = './images/위쪽.png';
-        this.context.drawImage(image, this.x, this.y, 1, 1);
-    }   
-    else if (this.requestedMove === MoveDirection.down) {
-        const image = new Image();
-        image.src = './images/아래쪽.png';
-        this.context.drawImage(image, this.x, this.y, 1, 1);
-    }
+    this.context.drawImage(this.images[this.currentMove], this.x, this.y, 1, 1);
 }
 
 Enemy.prototype.sort = function() {
@@ -103,10 +98,7 @@ Enemy.prototype.search = function() {
 
 Enemy.prototype.direction = function() {
     const path = this.path.sort(() => -1);
-    let x = Math.round(this.x * 1e2) / 1e2;
-    let y = Math.round(this.y * 1e2) / 1e2;
-    
-    x = path[1].x - x, y = path[1].y - y;
+    let x = path[1].x - this.x, y = path[1].y - this.y;
 
     if(x === 0) {
         if(y > 0) {

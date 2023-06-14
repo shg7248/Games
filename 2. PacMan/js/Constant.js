@@ -16,7 +16,7 @@ export const MoveDirection = {
  * 4: 핑키
  * 5: 잉키
  * 6: 클라이드
- * 7: 점수
+ * 7: 쿠키
  */
 export const MAP = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],

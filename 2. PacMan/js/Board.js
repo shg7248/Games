@@ -90,6 +90,14 @@ Board.prototype.isWall = function(x, y, direction) {
     return this.map[y][x] === 1;
 }
 
+Board.prototype.isCookie = function(x, y) {
+    return this.map[y][x] === 7;
+}
+
+Board.prototype.isCrash = function(pacman, enemy) {
+    
+}
+
 Board.prototype.clearRect = function() {
     this.context.clearRect(0, 0, this.context.canvas.width,this.context.canvas.height);
 }

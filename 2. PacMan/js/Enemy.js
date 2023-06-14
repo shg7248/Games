@@ -52,15 +52,19 @@ Enemy.prototype.serachInit = function(pacman) {
 
     this.currNode = this.map[this.y][this.x];
     this.currNode.g = 0;
-    this.currNode.h = 10 * (Math.abs(this.pacman.rx - this.currNode.rx) + Math.abs(this.pacman.y - this.currNode.y));
+    this.currNode.h = 10 * (Math.abs(this.pacman.rx - this.currNode.x) + Math.abs(this.pacman.ry - this.currNode.y));
     this.openList.push(this.currNode);
 }
 
+/**
+ * 길찾기 알고리즘
+ */
 Enemy.prototype.search = function() {
     while(this.openList) {
         this.parentNode = this.sort()[0];
         this.closeList.push(this.openList.splice(this.openList.indexOf(this.parentNode), 1)[0]);
 
+        // 목표를 찾았을 경우 경로를 저장
         if(this.parentNode.x === this.pacman.rx && this.parentNode.y === this.pacman.ry) {
             while(this.parentNode) {
                 this.path.push(this.parentNode);
@@ -100,7 +104,7 @@ Enemy.prototype.direction = function() {
     const path = this.path.sort(() => -1);
     let x = path[1].x - this.x, y = path[1].y - this.y;
 
-    if(x === 0) {
+    if(!x) {
         if(y > 0) {
             this.requestedMove = MoveDirection.down;
         }
@@ -108,8 +112,7 @@ Enemy.prototype.direction = function() {
             this.requestedMove = MoveDirection.top;
         }
     }
-
-    if(y === 0) {
+    if(!y) {
         if(x > 0) {
             this.requestedMove = MoveDirection.right;
         }

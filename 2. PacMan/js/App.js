@@ -15,6 +15,8 @@ function Game() {
         
         this.pacman.move(this.board);
         this.enemy.move(this.pacman);
+
+        this.board.isCrash(this.pacman, this.enemy);
         
         this.board.draw();
         this.pacman.draw();

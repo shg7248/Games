@@ -65,18 +65,18 @@ PacMan.prototype.move = function(board) {
     if(isIntegerXY) {
         this.rx = x;
         this.ry = y;
-    }
 
-    if(this.currentMove !== this.requestedMove) {
-        if(isIntegerXY) {
-            if(!board.isWall(x, y, this.requestedMove)) {
-                this.currentMove = this.requestedMove;
-            }
+        if(board.isCookie(x, y)) {
+            board.map[y][x] = 0;
         }
-    }
 
-    if(isIntegerXY && board.isWall(x, y, this.currentMove)) {
-        return;
+        if(!board.isWall(x, y, this.requestedMove)) {
+            this.currentMove = this.requestedMove;
+        }
+
+        if(board.isWall(x, y, this.currentMove)) {
+            return;
+        }
     }
 
     switch(this.currentMove) {

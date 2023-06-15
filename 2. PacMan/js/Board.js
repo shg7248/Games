@@ -95,7 +95,10 @@ Board.prototype.isCookie = function(x, y) {
 }
 
 Board.prototype.isCrash = function(pacman, enemy) {
-    
+    return  pacman.x + 0.25 + 0.5 >= enemy.x + 0.25 && 
+            pacman.x + 0.25 <= enemy.x + 0.75 && 
+            pacman.y + 0.75 >= enemy.y + 0.25 &&
+            pacman.y + 0.25 <= enemy.y + 0.75;
 }
 
 Board.prototype.clearRect = function() {

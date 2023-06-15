@@ -122,6 +122,40 @@ Enemy.prototype.direction = function() {
     }
 }
 
+Enemy.prototype.makeWall = function() {
+    switch(this.requestedMove) {
+        case MoveDirection.left:
+            this.map[this.y][this.x + 1].is_wall = true;
+            break;
+        case MoveDirection.right:
+            this.map[this.y][this.x - 1].is_wall = true;
+            break;    
+        case MoveDirection.top:
+            this.map[this.y + 1][this.x].is_wall = true;
+            break;      
+        case MoveDirection.down:
+            this.map[this.y - 1][this.x].is_wall = true;
+            break; 
+    }
+}
+
+Enemy.prototype.removeWall = function() {
+    switch(this.requestedMove) {
+        case MoveDirection.left:
+            this.map[this.y][this.x + 1].is_wall = false;
+            break;
+        case MoveDirection.right:
+            this.map[this.y][this.x - 1].is_wall = false;
+            break;
+        case MoveDirection.top:
+            this.map[this.y + 1][this.x].is_wall = false;
+            break;      
+        case MoveDirection.down:
+            this.map[this.y - 1][this.x].is_wall = false;
+            break;         
+    }
+}
+
 Enemy.prototype.move = function(pacman) {
 
     const x = Math.round(this.x * 1e2) / 1e2;
@@ -132,24 +166,26 @@ Enemy.prototype.move = function(pacman) {
     if(isIntegerXY) {
         this.x = x, this.y = y;
         this.drawNode();
+        this.makeWall();
         this.serachInit(pacman);
         this.search();
+        this.removeWall();
         this.direction();
         this.currentMove = this.requestedMove;
     }
 
     switch(this.currentMove) {
         case MoveDirection.left:
-            this.x -= 0.05;
+            this.x -= 0.0625;
             break;
         case MoveDirection.right:
-            this.x += 0.05;
+            this.x += 0.0625;
             break;
         case MoveDirection.top:
-            this.y -= 0.05;
+            this.y -= 0.0625;
             break;
         case MoveDirection.down:
-            this.y += 0.05;
+            this.y += 0.0625;
             break;
     }
 }

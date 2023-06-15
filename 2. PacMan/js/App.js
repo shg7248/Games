@@ -10,13 +10,17 @@ function Game() {
     this.pacman = this.board.getPacman();
     this.enemy = this.board.getEnemy();
 
-    setInterval( e => {
+    this.loop = setInterval( e => {
         this.board.clearRect();
         
         this.pacman.move(this.board);
         this.enemy.move(this.pacman);
 
-        this.board.isCrash(this.pacman, this.enemy);
+        if(this.board.isCrash(this.pacman, this.enemy)) {
+            alert('Game Over');
+            clearInterval(this.loop);
+            return;
+        }
         
         this.board.draw();
         this.pacman.draw();

@@ -40,9 +40,15 @@ PacMan.prototype.keydown = function() {
     document.addEventListener('keydown', function(event) {
         switch(event.keyCode) {
             case 37:
+                if(that.currentMove === MoveDirection.right) {
+                    that.currentMove = MoveDirection.right
+                }
                 that.requestedMove = MoveDirection.left;
                 break;
             case 39:
+                if(that.currentMove === MoveDirection.left) {
+                    that.currentMove = MoveDirection.left
+                }
                 that.requestedMove = MoveDirection.right;
                 break;  
             case 38:
@@ -81,16 +87,16 @@ PacMan.prototype.move = function(board) {
 
     switch(this.currentMove) {
         case MoveDirection.left:
-            this.x -= 0.05;
+            this.x -= 0.0625;
             break;
         case MoveDirection.right:
-            this.x += 0.05;
+            this.x += 0.0625;
             break;
         case MoveDirection.top:
-            this.y -= 0.05;
+            this.y -= 0.0625;
             break;
         case MoveDirection.down:
-            this.y += 0.05;
+            this.y += 0.0625;
             break;
     }
 }

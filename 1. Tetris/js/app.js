@@ -1,5 +1,6 @@
 'use strict';
 
+import * as common from './common.js';
 import {
     ROWS, 
     COLS, 
@@ -30,10 +31,12 @@ function App() {
 
     this.time = {start: 0, elapsed: 0, level: 500};
 
-    this.board = new Board(this);
-    this.piece = new Piece(this.context);
+    this.board = new Board(this.context);
+    this.piece = new Piece(this);
 
+    // addEventListener 내에서 실행되야 하기 때문에 bind 시켜줌
     this.startBtn.addEventListener('click', this.start.bind(this));
+
 }
 
 App.prototype.start = function() {
@@ -53,56 +56,62 @@ App.prototype.animate = function(now = 0) {
     this.time.elapsed = now - this.time.start;
     if(this.time.elapsed > this.time.level) {
         this.time.start = now;
-        this.drop();
-    }
-}
 
-App.prototype.moveBlock = {
-    [KEYS.RIGHT]: e => ({...e, x: e.x + 1}),
-    [KEYS.LEFT]: e => ({...e, x: e.x - 1}),
-    [KEYS.DOWN]: e => ({...e, y: e.y + 1}),
-    [KEYS.UP]: function(e){
-        return this.piece.rotateShape({...e});
-    },
-}
-
-App.prototype.addKeyListener = function(e) {
-    if(e.keyCode === KEYS.SPACE) {
-        let piece;
-        while(this.board.vailDation(piece = this.moveBlock[KEYS.DOWN](this.piece))) {
-            this.piece.moveBlock(piece);
-        }
-        this.drop();
-    }
-    else if(this.moveBlock[e.keyCode]) {
-        const piece = this.moveBlock[e.keyCode].call(this, this.piece);
-        if(this.board.vailDation(piece)) {
-            this.piece.moveBlock(piece);
-            this.drawScreen();
-        }
+        // 블록이 한칸씩 아래로 내려옴
+        this.moveOrRotateBlock();
     }
 }
 
 /**
- * requestAnimationFrame이 호출하면 한칸씩 자동으로 내려간다.
+ *  테트리스 버튼 이벤트
  */
-App.prototype.drop = function() {
-    const piece = this.moveBlock[KEYS.DOWN](this.piece);
-    if(this.board.vailDation(piece)) {
-        this.piece.moveBlock(piece);
-    }
-    else {
-        this.board.writeBoard(this.piece);
+App.prototype.addKeyListener = function(e) {
+
+    // 스크롤 이동 방지
+    e.preventDefault();
+
+    this.moveOrRotateBlock(e.which);
+}
+
+/**
+ *  블록을 이동하거나 회전시킨다.
+ *  @returns
+ */
+App.prototype.moveOrRotateBlock = function(keyEvent) 
+{
+
+    const key = keyEvent || KEYS.DOWN;
+
+    // 블록을 한번에 내리는 경우
+    if(KEYS.SPACE === key) 
+    {
+        this.board.writeBoard(this.piece.최종낙하지점기준객체리턴());
         this.board.removeLine();
-        this.score_
-        if(!this.makePiece()) {
-            this.gameOver();
-            return;
+        this.makePiece();
+    }
+    else 
+    {
+        const piece = common.moveBlock[key].call(this, (this.piece));
+
+        if(this.board.vailDation(piece)) {
+            this.piece.moveBlock(piece);
+        }
+        else 
+        {
+            if(!keyEvent)
+            {
+                this.board.writeBoard(this.piece);
+                this.board.removeLine();
+                this.makePiece();
+            }
         }
     }
     this.drawScreen();
 }
 
+/**
+ *  백그라운드를 참고해서 테트리스 화면을 그려준다
+ */
 App.prototype.drawScreen = function() {
     this.board.clear();
     this.board.draw();
@@ -114,7 +123,7 @@ App.prototype.drawScreen = function() {
  * 생성된 블록이 나오나자마 쌓여있는 블록과 겹치게 되면 return true를 해준다. (Game Over 조건)
  */
 App.prototype.makePiece = function() {
-    return this.board.checkfline(this.piece = new Piece(this.context));
+    return this.board.checkfline(this.piece = new Piece(this));
 }
 
 /**

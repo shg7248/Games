@@ -1,11 +1,17 @@
 'use strict';
 
+export const SCREEN_ROWS = 20;
+export const SCREEN_COLS = 16;
 export const ROWS = 20;
 export const COLS = 10;
-export const BLOCK_SIZE = 30;
 
-export const WIDTH = COLS * BLOCK_SIZE;
-export const HEIGHT = ROWS * BLOCK_SIZE;
+export const BLOCK_SIZE = 30;
+export const BLOCK_BOARDER_COLOR = 'WHITE';
+
+export const BLOCK_COUNT = 3;
+
+export const WIDTH  = SCREEN_COLS * BLOCK_SIZE;
+export const HEIGHT = SCREEN_ROWS * BLOCK_SIZE;
 
 export const INNER_BLOCK_SIZE = 0.03;
 

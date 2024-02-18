@@ -9,8 +9,8 @@ import {
     SHAPES,
 } from './constant.js';
 
-export default function Board(context) {
-    this.context = context;
+export default function Board(app) {
+    this.context = app.context;
     
     this.initBoard();
     this.initBackground();
@@ -20,19 +20,20 @@ export default function Board(context) {
  * 테트리스의 그리드를 초기화해준다.
  */
 Board.prototype.initBackground = function() {
-    // this.background = new Image();
-    // this.background.src = './images/background.png';
-    // this.background.onload = function() {
-    //     that.context.drawImage(that.background, 0, 0, COLS, ROWS);
-    // }
-    this.board.forEach((e, dy) => {
-        e.forEach((value, dx) => {
+      
+    for(let i = 0; i <  SCREEN_ROWS; i++) {
+        for(let j = 0; j < SCREEN_COLS; j++) {
             this.context.fillStyle = 'white';
-            this.context.fillRect(dx, dy, 1, 1);
-            this.context.fillStyle = '#CCCCCC';
-            common.drawInnerBlock.call(this, dx, dy);
-        });
-    });
+            this.context.fillRect(j, i, 1, 1);
+            if(j === COLS || j === SCREEN_COLS - 1 || i === 0 || i === SCREEN_ROWS - 1) {
+                this.context.fillStyle = '#000000';
+            }
+            else {
+                this.context.fillStyle = '#CCCCCC';
+            }
+            common.drawInnerBlock.call(this, j, i);
+        }
+    }
 }
 
 /**

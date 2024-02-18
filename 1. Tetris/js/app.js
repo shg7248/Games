@@ -31,7 +31,7 @@ function App() {
 
     this.time = {start: 0, elapsed: 0, level: 500};
 
-    this.board = new Board(this.context);
+    this.board = new Board(this);
     this.piece = new Piece(this);
 
     // addEventListener 내에서 실행되야 하기 때문에 bind 시켜줌
@@ -79,14 +79,12 @@ App.prototype.addKeyListener = function(e) {
  */
 App.prototype.moveOrRotateBlock = function(keyEvent) 
 {
-
     const key = keyEvent || KEYS.DOWN;
 
     // 블록을 한번에 내리는 경우
     if(KEYS.SPACE === key) 
     {
         this.board.writeBoard(this.piece.최종낙하지점기준객체리턴());
-        this.board.removeLine();
         this.makePiece();
     }
     else 
@@ -101,11 +99,13 @@ App.prototype.moveOrRotateBlock = function(keyEvent)
             if(!keyEvent)
             {
                 this.board.writeBoard(this.piece);
-                this.board.removeLine();
                 this.makePiece();
             }
         }
     }
+
+    this.board.removeLine(); // 한줄이 채워지면 해당 라인 지우기
+
     this.drawScreen();
 }
 
